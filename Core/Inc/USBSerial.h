@@ -20,12 +20,12 @@ public:
 	USBSerial();
 	virtual ~USBSerial();
 
-	void print(const char * msg);
+	void print(const char * msg, int size);
 	void print(short value, NUM_BASE base = NUM_BASE::DEC);
 	void print(int value, NUM_BASE base = NUM_BASE::DEC);
 	void print(long value, NUM_BASE base = NUM_BASE::DEC);
 
-	void println(const char * msg);
+	void println(const char * msg, int size);
 	void println(short value, NUM_BASE base = NUM_BASE::DEC);
 	void println(int value, NUM_BASE base = NUM_BASE::DEC);
 	void println(long value, NUM_BASE base = NUM_BASE::DEC);

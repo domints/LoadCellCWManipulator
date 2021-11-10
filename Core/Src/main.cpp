@@ -99,12 +99,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+
 	  HAL_Delay(1000);
-	  Serial.print("Dupa: ");
-	  Serial.print(15);
-	  Serial.print(" XD: ");
-	  Serial.println(0xCFF, NUM_BASE::HEX);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -247,7 +243,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
-	Serial.print("gotCallback");
+	Serial.print("gotCallback", 10);
 }
 /* USER CODE END 4 */
 

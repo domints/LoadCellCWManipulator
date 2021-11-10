@@ -32,6 +32,13 @@ enum ADS1115_DR_CFG {
 	_860SPS
 };
 
+enum ADS1115_COMP_QUE {
+	A_1_CONV,
+	A_2_CONV,
+	A_4_CONV,
+	DISABLED
+};
+
 class ADS1115 {
 public:
 	ADS1115();
@@ -40,6 +47,11 @@ public:
 	void readConfig();
 	void writeConfig();
 	void setMux(ADS1115_MUX_CFG config);
+	void setCompQue(ADS1115_COMP_QUE config);
+	void setDataRate(ADS1115_DR_CFG config);
+	void setHiThresh(int value);
+	void setLoThresh(int value);
+	void setADCReady();
 	void singleConversion();
 	void singleConversion(ADS1115_MUX_CFG muxCfg);
 	int16_t readConversion();
@@ -52,7 +64,8 @@ private:
 	uint8_t _config[2];
 
 	const uint8_t MUX_CLEAR_MASK = 0x8F;
-	const uint8_t DR_CLEAR_MASK = 0x8F;
+	const uint8_t DR_CLEAR_MASK = 0x1F;
+	const uint8_t COMP_QUE_CLEAR_MASK = 0xF8;
 
 #ifdef DEBUG
 	bool _initialized;

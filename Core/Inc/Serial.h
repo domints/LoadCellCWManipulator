@@ -8,7 +8,7 @@
 #ifndef INC_SERIAL_H_
 #define INC_SERIAL_H_
 
-#include "USBSerial.h"
+#include <USBSerial.h>
 
 extern USBSerial Serial;
 

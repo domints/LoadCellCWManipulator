@@ -16,7 +16,7 @@ ADS1115::~ADS1115() {
 	// TODO Auto-generated destructor stub
 }
 
-void ADS1115::Init(I2C_HandleTypeDef* i2cHandle, uint8_t address) {
+void ADS1115::Init(I2C_HandleTypeDef *i2cHandle, uint8_t address) {
 	_i2c = i2cHandle;
 	_address = address;
 
@@ -31,6 +31,35 @@ void ADS1115::setMux(ADS1115_MUX_CFG config) {
 	_config[0] = (_config[0] & MUX_CLEAR_MASK) | (config << 4);
 }
 
+void ADS1115::setCompQue(ADS1115_COMP_QUE config) {
+	_config[1] = (_config[1] & COMP_QUE_CLEAR_MASK) | (config);
+}
+
+void ADS1115::setDataRate(ADS1115_DR_CFG config) {
+	_config[1] = (_config[1] & DR_CLEAR_MASK) | (config << 5);
+}
+
+void ADS1115::setHiThresh(int value) {
+	_writeBfr[0] = 0x03;
+	_writeBfr[1] = value >> 8;
+	_writeBfr[2] = value & 0xFF;
+	HAL_I2C_Master_Transmit(_i2c, _address, _writeBfr, 3, 100);
+}
+
+void ADS1115::setLoThresh(int value) {
+	_writeBfr[0] = 0x02;
+	_writeBfr[1] = value >> 8;
+	_writeBfr[2] = value & 0xFF;
+	HAL_I2C_Master_Transmit(_i2c, _address, _writeBfr, 3, 100);
+}
+
+void ADS1115::setADCReady() {
+	setHiThresh(0x8000);
+	setLoThresh(0x0000);
+	setCompQue(ADS1115_COMP_QUE::A_1_CONV);
+	writeConfig();
+}
+
 void ADS1115::readConfig() {
 	_writeBfr[0] = 0x01;
 
@@ -38,7 +67,7 @@ void ADS1115::readConfig() {
 	HAL_Delay(100);
 	HAL_I2C_Master_Receive(_i2c, _address, _readBfr, 2, 100);
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
-		  HAL_Delay(1000);
+	HAL_Delay(1000);
 	_config[0] = _readBfr[0] & 0x7F; //ensure StartConversion bit is set to 0
 	_config[1] = _readBfr[1];
 }

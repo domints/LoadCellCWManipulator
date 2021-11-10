@@ -18,8 +18,8 @@ USBSerial::~USBSerial() {
 	// TODO Auto-generated destructor stub
 }
 
-void USBSerial::print(const char *msg) {
-	send((uint8_t*) msg, sizeof(msg));
+void USBSerial::print(const char *msg, int size) {
+	send((uint8_t*) msg, size);
 }
 
 void USBSerial::print(short value, NUM_BASE base) {
@@ -40,8 +40,8 @@ void USBSerial::print(long value, NUM_BASE base) {
 	send((uint8_t*) buffer, len);
 }
 
-void USBSerial::println(const char *msg) {
-	send((uint8_t*) msg, sizeof(msg));
+void USBSerial::println(const char *msg, int size) {
+	send((uint8_t*) msg, size);
 	send(newLine, 2);
 }
 
@@ -68,9 +68,9 @@ void USBSerial::println(long value, NUM_BASE base) {
 
 void USBSerial::send(uint8_t* buffer, uint16_t len) {
 	uint8_t result = USBD_BUSY;
-	while (result == USBD_BUSY) {
+	//while (result == USBD_BUSY) {
 		result = CDC_Transmit_FS(buffer, len);
-	}
+	//}
 }
 
 char* USBSerial::getFormat(NUM_BASE base) {
